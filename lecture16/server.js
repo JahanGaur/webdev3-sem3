@@ -1,5 +1,6 @@
 const express=require('express');
 const app=express();
+const morgan=require('morgan');
 const port=3000;
 
 const logMiddleware = (req, res, next) => {
@@ -18,9 +19,9 @@ const apiCheckMiddleware = (req, res, next) => {
     }
     
 }
-
-app.use(logMiddleware);
-app.use(apiCheckMiddleware);
+app.use(morgan());
+// app.use(logMiddleware);
+// app.use(apiCheckMiddleware);
 
 app.get('/', (req, res) => {
     console.log(req.name);
