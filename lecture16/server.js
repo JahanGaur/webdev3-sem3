@@ -19,9 +19,9 @@ const apiCheckMiddleware = (req, res, next) => {
     }
     
 }
-app.use(morgan());
-// app.use(logMiddleware);
-// app.use(apiCheckMiddleware);
+// app.use(morgan());
+app.use(logMiddleware);
+// app.use(apiCheckMiddleware); /// global middleware
 
 app.get('/', (req, res) => {
     console.log(req.name);
@@ -29,8 +29,9 @@ app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
-app.get('/data', (req, res) => {
-    res.json({
+app.get('/data',  apiCheckMiddleware, (req, res) => {  //route level middleware
+    console.log("hello world")
+     res.json({
         city: 'New York',
         country: 'USA',
         temp: 25,
