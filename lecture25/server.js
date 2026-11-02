@@ -43,6 +43,31 @@ app.post('/doctors', async (req, res) => {
     }
 });
 
+
+app.put('/doctors/:id', async (req, res) => {
+    try {
+        const updatedDoctor = await Doctor.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedDoctor) {
+            return res.status(404).json({ success: false, message: 'Doctor not found' });
+        }
+        res.json(updatedDoctor);
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+app.delete('/doctors/:id', async (req, res) => {
+    try {
+        const deletedDoctor = await Doctor.findByIdAndDelete(req.params.id);
+        if (!deletedDoctor) {
+            return res.status(404).json({ success: false, message: 'Doctor not found' });
+        }
+        res.json({ success: true, message: 'Doctor deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 })
